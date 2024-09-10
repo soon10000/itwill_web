@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Department 상세보기</title>
+</head>
+<body>
+    <header>
+        <div
+            th:replace="~{/layout/fragments :: pageHeader(${dept.dname} + ' 부서 상세보기')}"></div>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>사번</th>
+                    <th>이름</th>
+                    <th>직무</th>
+                    <th>매니저</th>
+                    <th>입사일</th>
+                    <th>급여</th>
+                    <th>수당</th>
+                    <th>부서</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="employee : ${dept.employees}" th:object="${employee}">
+                    <td th:text="*{id}"></td>
+                    <td th:text="*{ename}"></td>
+                    <td th:text="*{job}"></td>
+                    <td>
+                        <th:block th:if="*{manager != null}">
+                            <a th:text="*{manager.ename}"></a>
+                        </th:block>
+                    </td>
+                    <td th:text="*{hiredate}"></td>
+                    <td th:text="*{salary}"></td>
+                    <td th:text="*{commission}"></td>
+                    <td th:text="*{department.dname}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+</body>
+</html>

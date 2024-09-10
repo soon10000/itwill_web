@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tymeleaf.org">
+<head>
+<th:block th:replace="~{/layout/fragments :: documentHeader}"></th:block>
+</head>
+<body>
+    <th:block
+        th:replace="~{/layout/fragments :: pageHeader('post modify')}"></th:block>
+    <main>
+        <div class="card">
+            <div class="card-body" th:object="${post}">
+                <form id="updateForm" method="post" th:action="@{/post/update}">
+                    <div class="mt-2 d-none">
+                        <label for="id" class="form-label">글 번호</label>
+                        <input id="id" class="form-control" type="text" th:value="*{id}" name="id" readonly>
+                    </div>
+                    <div class="mt-2">
+                        <label for="title" class="form-label">제목</label>
+                        <input id="title" class="form-control" type="text" th:value="*{title}" name="title" autofocus />
+                    </div>
+                    <div class="mt-2">
+                        <label for="content" class="form-label">내용</label>
+                        <textarea id="content" class="form-control" rows="5" th:text="*{content}" name="content"> </textarea>
+                    </div>
+                </form>
+                
+                <!-- 포스트 작성자와 로그인 사용자가 같은 경우 삭제/업데이트 가능하도록. -->
+                <div th:if="*{author eq #authentication.name}" class="mt-2 d-flex justify-content-end">
+                    <button class="mx-2 btn btn-outline-danger" id="btnDelete">삭제</button>
+                    <button class="mx-2 btn btn-outline-primary" id="btnUpdate">업데이트</button>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    
+    <th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
+    <script th:src="@{/js/post-modify.js}"></script>
+</body>
+</html>

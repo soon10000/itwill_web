@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <th:block th:replace="~{/layout/fragments :: documentHeader}"></th:block>
+	</head>
+	<body>
+        <th:block th:replace="~{/layout/fragments :: pageHeader('new post create')}"></th:block>
+        <main>
+            <div class="card">
+              <div class="card-body">
+                <form method="post" action="/post/create" >
+                    
+                    
+                        <div class="mt-2">
+                            <label class="form" for="title">제목</label>
+                            <input class="form-control" type="text" name="title" id="title" required placeholder="제목을 입력하세요" />
+                        </div>
+                        
+                        <div class="mt-2">
+                            <label class="form" for="content">내용</label>
+                            <textarea class="form-control" name="content" id="content" required placeholder="내용을 입력하세요"  rows="10" ></textarea>
+                        </div>
+                        <div class="d-none">
+                            <label class="form" for="author">작성자</label>
+                            <input class="form-control" type="text" name="author" id="author" readonly 
+                                th:value="${#authentication.name}" />
+                        </div>
+                    
+                        <div class="mt-2">
+                            <input class="form-control btn btn-success" type="submit" id="submit" value="작성 완료" />
+                        </div>
+                </form>
+                
+                </div>
+            </div>
+        </main>
+		
+
+        <th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
+	</body>
+</html>

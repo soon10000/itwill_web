@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:="http://www.thymeleaf.org">
+	<head>
+		<th:block th:replace="~{/layout/fragments :: documentHeader}"></th:block>
+	</head>
+	<body>
+		<th:block th:replace="~{/layout/fragments :: pageHeader('login page')}"></th:block>
+        
+        
+        <main class="mt-2">
+            <div class="card card-body">
+                <form method="post" th:action="@{/member/signin}"> <!-- form에서 action으로 주소값을 설정하지 않은 경우 현재 보이는 주소값 대로 요청을 보낸다 -->
+                    <div class="mt-2 text-danger" th:if="${param.error}"> <!-- TODO -->
+                        아이디와 비밀번호를 확인하세요.
+                    </div>
+                    <div class="mt-2">
+                        <input type="text" class="form-control" name="username" placeholder="사용자 아이디" required autofocus/>
+                    </div>
+                    <div class="mt">
+                        <input type="password" class="form-control" name="password" placeholder="비밀번호" required />
+                    </div>
+                    <div class="mt-2">
+                        <input type="submit" class="form-control btn btn-success" value="로그인"  />                        
+                    </div>
+
+                </form>
+                <div class="mt-2">
+                        <a th:href="@{/member/signup}" class="btn btn-primary form-control">회원 가입</a>
+                </div>
+            </div>
+        </main>
+        
+        <th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
+	</body>
+</html>

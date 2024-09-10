@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+        <th:block th:replace="~{/layout/fragments :: documentHeader}"></th:block>
+	</head>
+	<body>
+        <div th:replace="~{/layout/fragments :: pageHeader('JOB List Page')}"></div>
+        <main>
+            <table>
+                <thead>
+                    <tr>
+                        <th>직무 코드</th>
+                        <th>직무 이름</th>
+                        <th>최저 급여</th>
+                        <th>최고 급여</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="jobs : ${jobs}" th:object="${jobs}">
+                        <td>
+                            <a th:text="*{id}" th:href="@{/job/details/{id}(id=*{id})}"></a>
+                        </td>
+                        <td>
+                          <a th:text="*{jobTitle}" th:href="@{/job/details/{id}(id=*{id})}"></a>
+                         </td>
+                        <td th:text="*{minSalary}"></td>
+                        <td th:text="*{maxSalary}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+		<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
+	</body>
+</html>

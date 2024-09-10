@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.itwill.spring02.repository.CommentDao">
+  
+  <!-- 모든 Select 문장에는 resultType=""을 설정해줘야한다(리턴값) -->
+    <select id="selectByPostId" resultType="Comment">
+        SELECT * FROM comments WHERE post_id = #{postId} ORDER BY ID DESC
+    </select>
+    
+    <insert id="insert">
+        INSERT INTO comments (post_id, username, ctext) values (#{postId}, #{username}, #{ctext})
+    </insert>
+    
+    <update id="update">
+        UPDATE comments SET ctext = #{ctext} , modified_time = systimestamp WHERE id = #{id}
+    </update>
+    
+    <delete id="deleteById">
+        DELETE FROM comments WHERE id = #{id}
+    </delete>
+    
+    <delete id="deleteByPostId">
+        DELETE FROM comments WHERE post_id = #{postId}
+    </delete>
+    
+    <select id="selectCommentCount" resultType="Integer" >
+        SELECT COUNT(*) FROM comments WHERE post_id = #{postId}
+    </select>
+    
+    <select id="selectById" resultType="Comment">
+        SELECT * FROM comments WHERE id = #{id}
+    </select>
+    
+    
+  </mapper>

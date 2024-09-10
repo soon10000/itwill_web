@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Spring Boot 3</title>
+        <th:block th:replace="~{/layout/fragments :: documentHeader}"></th:block>
+	</head>
+	<body>
+        <div th:replace="~{/layout/fragments :: pageHeader(${employee.firstName} + ' '  + ${employee.lastName} + ' 상세 정보')}"></div>
+        <main th:object="${employee}">
+            사번: <span th:text="*{id}"></span>
+            <br/>
+            이름: <span th:text="*{firstName}"></span>
+            <br/>
+            성: <span th:text="*{lastName}"></span>
+            <br/>
+            이메일: <span th:text="*{email}"></span>
+            <br/>
+            연락처: <span th:text="*{phoneNumber}"></span>
+            <br/>
+            입사일: <span th:text="*{hireDate}"></span>
+            <br/>
+            직무: <span>
+                    <a th:text="*{job.jobTitle}" th:href="@{/job/details/{id}(id=*{job.id})}"></a>
+                </span>
+            <br/>
+            급여: <span th:text="*{salary}"></span>
+            <br/>
+            수당: <span th:text="*{commissionPct}"></span>
+            <br/>
+            매니저: <span> 
+                    <th:block th:if="*{manager} != null">
+                    <a th:text="*{manager.lastName}" th:href="@{/employee/details/{id}(id=*{manager.id})}"></a>
+                    </th:block>
+                    <span th:if="*{manager} == null">
+                        매니저 없음~
+                    </span>
+            <br/>
+            부서: <span>
+                    <th:block th:if="*{department} != null">
+                    <a th:text="*{department.departmentName}" th:href="@{/department/details/{id}(id=*{department.id})}"></a>
+                    </th:block>
+                </span>
+            
+            
+        </main>
+		<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
+	</body>
+</html>

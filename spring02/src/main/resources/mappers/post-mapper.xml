@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.itwill.spring02.repository.PostDao"> <!-- 이러한 경로에 해당 PostDao라는 인터페이스에서 아래에 명령어들을 사용할 것이다. -->
+  
+    <!-- posts 테이블 전체 검색. 목록보기 -->
+    <select id="selectOrderByIdDesc"  resultType="Post" >  <!-- resultType에는 리턴하는 타입, id에 작성하는 이름은 인터페이스에서 사용 될 메서드명이 된다. -->
+        select * from posts order by id desc
+    </select>
+    
+    <!-- posts 테이블에서 id(PK)로 검색. 상세보기 -->
+    <select id="selectById" resultType="Post">  <!-- MyBatis에서는 물음표(?) 대신 #{값} 으로 표기를 한다. -->
+        select * from posts where id = #{id}
+    </select>
+    
+    <!-- posts 테이블에 행 삽입. (새 글 작성) -->
+    <insert id="insertPost" >
+        insert into posts (title, content, author) values (#{title}, #{content}, #{author})
+    </insert>
+    
+    <!-- posts 테이블에서 해당 id의 제목과 내용 업데이트. -->
+    <update id="updatePost">
+        UPDATE posts SET title = #{title}, content = #{content}, modified_time = systimestamp WHERE ID = #{id} 
+    </update>
+    
+    <!-- posts 테이블에서 해당 id의 행을 삭제. -->
+    <delete id="deletePost">
+        delete from posts where id = #{id}
+    </delete>
+    
+    <!-- posts 테이블에서 제목/내용/작성을 검색할 때 사용하는 쿼리 -->
+    <select id="search" resultType="Post"> <!-- param.getKeyword 라는 코드와 같은 맥락 -->
+        <bind name="searchKeyword" value="'%' + keyword + '%' " />  <!-- SQL문장 : SELECT * FROM posts WHERE UPPER(title) LIKE UPPER('%keyword%') OR UPPER(content) LIKE UPPER('%keyword%') ORDER BY DESC; -->
+        <!-- 위 코드 중 keyword 라는 값은 list.jsp에서 input name="keyword"라고 선언해서 그 값을 가지고 오는것이다. -->
+        select * from posts
+        <where>
+            <choose> <!-- <choose>는 Java의 Switch case문과 비슷한 코드 -->
+                <when test='category.equals("t")'>  <!-- 만약에 카테고리 값이 t와 값이 같으면 --> <!-- param.getCategory 코드와 같은 맥락 -->
+                    upper(title) like upper(#{searchKeyword})
+                </when>
+                <when test='category.equals("c")'>
+                    upper(content) like upper(#{searchKeyword})
+                </when>
+                <when test='category.equals("tc")'>
+                    upper(title) like upper(#{searchKeyword})
+                    or
+                    upper(content) like upper(#{searchKeyword})
+                </when>
+                <when test='category.equals("a")'>
+                    upper(author) like upper(#{searchKeyword})
+                </when>
+            </choose>
+        </where>
+        order by id desc
+    </select>
+
+    
+  </mapper>
